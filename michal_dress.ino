@@ -290,7 +290,7 @@ void loop()
     //create_new_blink_interval = MIN_BLINQ_INTERVAL;
     if(millis() - lastRefreshTime >= create_new_blink_interval)
     {
-        Serial.println("Creating a new one");
+ //       Serial.println("Creating a new one");
         lastRefreshTime += create_new_blink_interval;
         selectRandomLed();
 ////      
@@ -302,8 +302,10 @@ void loop()
     //FastLED.delay(1000 / UPDATES_PER_SECOND);
 
   if(crazyMode == 0) {
+       //Serial.println("moveThroughLedStates");
     moveThroughLedStates();
   }else {
+    //Serial.println("FillLEDsFromPaletteColors");
     FillLEDsFromPaletteColors(startIndex); 
   }
 
@@ -339,7 +341,8 @@ void selectRandomLed() {
   //int ledToLightInGroup = REMOVE_ME_COUNTER++;
   for (int i = 0;i<NUM_OF_ACTIVE_LEDS; ++i) {
     int ledToLightInGroup = random(0, NUM_LEDS);    
-    selectedLeds[ledToLightInGroup] = 1;      
+    selectedLeds[ledToLightInGroup] = 1;  
+    //Serial.println(ledToLightInGroup);
   }    
 }
 //void FillLedsRandomByGroups(int numLedToLightOnEachGroup, int groups[], int groupSize) {
@@ -374,6 +377,8 @@ void moveThroughLedStates() {
     if(selectedLeds[i] != 1) {
       continue;
     }
+  //  Serial.print(i);
+//    Serial.print(" ledStates ");
     //Serial.println(ledStates[i]);
     int animationPart = map(ledStates[i],0,animateSpeed,0,255); //map it to 256 space
     //Serial.print("animationPart");
@@ -412,10 +417,11 @@ void moveThroughLedStates() {
     ledStates[i]++;
     // Check if ended animation
     if(ledStates[i] >= animateSpeed) {
-//      Serial.print("Ended animation for ");
-//      Serial.println(i);
+      //Serial.print("Ended animation for ");
+      //Serial.println(i);
       leds[i] = CRGB::Black;
       selectedLeds[i] = 0;
+      ledStates[i] = 0;
     }
   }
   //int final = millis();
