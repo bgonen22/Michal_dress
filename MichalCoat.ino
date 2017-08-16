@@ -5,6 +5,8 @@
 
 #define PINL 6
 #define PINR 5
+#define RATIO 10 // how many rainbow for each colorWipe
+#define DELAY 20 // delay for each colorWipe
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -47,13 +49,18 @@ void loop() {
 
 }
 
+
 void draw (uint32_t c) {
-  for(int i=0; i<strip.numPixels(); i++) {
+  for(int i=0; i<strip2.numPixels(); i++) {
     colorWipe(c,i);
-    rainbow_t = (rainbow_t + 1)%(256*5);
-    rainbowCycle(rainbow_t);
+    for (int t= 0; t<RATIO; ++t) {
+      rainbow_t = (rainbow_t + 1)%(256*5);
+      rainbowCycle(rainbow_t);
+    }
+    delay(DELAY);
+    
   }
-  delay(50);
+  
  
 }
 void colorWipe(uint32_t c,int i) {   
